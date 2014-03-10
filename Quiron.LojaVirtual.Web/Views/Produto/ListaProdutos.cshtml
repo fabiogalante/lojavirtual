@@ -1,0 +1,13 @@
+﻿@model IEnumerable<Quiron.LojaVirtual.Dominio.Entidades.Produto>
+
+@{
+    ViewBag.Title = "Products";
+}
+@foreach (var p in Model)
+{
+    <div>
+        <h3>@p.Nome</h3>
+        @p.Descricao
+        <h4>@p.Preco.ToString("c")</h4>
+    </div>
+}
