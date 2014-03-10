@@ -44,7 +44,7 @@ namespace Quiron.LojaVirtual.Web
 
 
             routes.MapRoute(null,
-                "{categoria}", new {controller = "Produto", action = "ListaProdutos", page = 1}
+                "{categoria}", new {controller = "Produto", action = "ListaProdutos", pagina = 1}
                 );
 
 
