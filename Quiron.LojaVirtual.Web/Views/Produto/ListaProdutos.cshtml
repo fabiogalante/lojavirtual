@@ -1,9 +1,10 @@
-﻿@model IEnumerable<Quiron.LojaVirtual.Dominio.Entidades.Produto>
+﻿@using Quiron.LojaVirtual.Web.HtmlHelpers
+@model Quiron.LojaVirtual.Web.Models.ProdutosViewModel
 
 @{
-    ViewBag.Title = "Products";
+    ViewBag.Title = "Produtos";
 }
-@foreach (var p in Model)
+@foreach (var p in Model.Produtos)
 {
     <div>
         <h3>@p.Nome</h3>
@@ -11,3 +12,8 @@
         <h4>@p.Preco.ToString("c")</h4>
     </div>
 }
+
+
+<div>
+    @Html.PageLinks(Model.Paginacao, x => Url.Action("ListaProdutos", new { pagina = x }))
+</div>
