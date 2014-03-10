@@ -10,7 +10,7 @@ namespace Quiron.LojaVirtual.Web.HtmlHelpers
 {
     public static class PaginacaoHelpers
     {
-        public static MvcHtmlString PageLinks(this HtmlHelper html, Paginacao paginacaoInfo,Func<int, string> paginaUrl)
+        public static MvcHtmlString PageLinks(this HtmlHelper html, Paginacao paginacaoInfo, Func<int, string> paginaUrl)
         {
             StringBuilder resultado = new StringBuilder();
 

@@ -107,6 +107,7 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Produto\ListaProdutos.cshtml" />
+    <Content Include="Views\Shared\ProdutosDetalhes.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
