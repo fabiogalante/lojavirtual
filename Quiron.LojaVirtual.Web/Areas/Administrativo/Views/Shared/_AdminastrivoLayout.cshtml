@@ -8,10 +8,17 @@
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
     <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
     <link href="~/Content/ErroEstilo.css" rel="stylesheet" />
+
+
     <title></title>
 </head>
 <body>
     <div>
+
+        @if (TempData["mensagem"] != null)
+        {
+            <div class="alert alert-success">@TempData["mensagem"]</div>
+        }
         @RenderBody()
     </div>
 </body>

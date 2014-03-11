@@ -33,24 +33,28 @@ namespace Quiron.LojaVirtual.Web
             // 1 - Home
 
             routes.MapRoute(null, "",
-                new {controller = "Produto", action = "ListaProdutos", categoria = (string) null, pagina = 1});
+                new {controller = "Produto", action = "ListaProdutos", categoria = (string) null, pagina = 1},
+                new[] { "Quiron.LojaVirtual.Web.Controllers" });
 
 
             // 2 - 
             routes.MapRoute(null,
                 "Pagina{pagina}",
-                new {controller = "Produto", action = "ListaProdutos", categoria = (string) null}, new {pagina = @"\d+"}
+                new {controller = "Produto", action = "ListaProdutos", categoria = (string) null}, new {pagina = @"\d+"},
+                new[] { "Quiron.LojaVirtual.Web.Controllers" }
                 );
 
 
             routes.MapRoute(null,
-                "{categoria}", new {controller = "Produto", action = "ListaProdutos", pagina = 1}
+                "{categoria}", new {controller = "Produto", action = "ListaProdutos", pagina = 1},
+                 new[] { "Quiron.LojaVirtual.Web.Controllers" }
                 );
 
 
 
             routes.MapRoute(null,
-                "{categoria}/Pagina{pagina}",new {controller = "Produto", action = "ListaProdutos"},new {pagina = @"\d+"}
+                "{categoria}/Pagina{pagina}",new {controller = "Produto", action = "ListaProdutos"},new {pagina = @"\d+"},
+                 new[] { "Quiron.LojaVirtual.Web.Controllers" }
                 );
 
 
