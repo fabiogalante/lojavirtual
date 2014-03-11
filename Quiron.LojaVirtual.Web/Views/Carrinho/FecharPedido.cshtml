@@ -1,84 +1,83 @@
 ﻿@model Quiron.LojaVirtual.Dominio.Entidades.Pedido
 
 @{
-    ViewBag.Title = "Fechar Pedido";
+
+    ViewBag.Title = "Quiron : Fechar o pedido";
 }
+<h2>Fechar o pedido</h2>
+<p>Digite suas informações abaixo</p>
 
-<h2>FecharPedido</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
-    @Html.AntiForgeryToken()
     
-    <div class="form-horizontal">
-        <h4>Pedido</h4>
-        <hr />
-        @Html.ValidationSummary(true)
+    @Html.ValidationSummary()
+    
+    <h3>Enviar para </h3>
+    <div class="form-group">
+        <label>Nome do cliente</label>
+        @Html.TextBoxFor(x => x.NomeCliente, new { @class = "form-control" })
+    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.NomeCliente, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.NomeCliente)
-                @Html.ValidationMessageFor(model => model.NomeCliente)
-            </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Cep, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Cep)
-                @Html.ValidationMessageFor(model => model.Cep)
-            </div>
-        </div>
+    <h3>Dados para entrega</h3>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Endereco, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Endereco)
-                @Html.ValidationMessageFor(model => model.Endereco)
+    
+    
+    foreach (var property in ViewData.ModelMetadata.Properties)
+    {
+        if (property.PropertyName != "NomeCliente" && property.PropertyName != "EmbrulharPresente")
+        {
+            <div class="form-group">
+                <label>
+                    @(property.DisplayName ?? property.PropertyName)
+                </label>
+                @Html.TextBox(property.PropertyName, null, new { @class = "form-control" })
             </div>
-        </div>
+        }
+    }
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Complemento, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Complemento)
-                @Html.ValidationMessageFor(model => model.Complemento)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Cidade, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Cidade)
-                @Html.ValidationMessageFor(model => model.Cidade)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Estado, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Estado)
-                @Html.ValidationMessageFor(model => model.Estado)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.EmbrulharPresente, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.EmbrulharPresente)
-                @Html.ValidationMessageFor(model => model.EmbrulharPresente)
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
+    <h3>Opções</h3>
+    <div class="checkbox">
+        <label>
+            @Html.EditorFor(x => x.EmbrulharPresente)
+            Emnbrulhar para presente?
+        </label>
+    </div>
+    <div class="text-center">
+        <input class="btn btn-primary" type="submit" value="Fechar o pedido" />
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+<script>
+
+$(function () {
+
+
+    $('#Cep').change(function (e) {
+
+        e.preventDefault();
+
+        $('#Endereco').val('');
+        $('#Bairro').val('');
+        $('#Cidade').val('');
+        $('#Estado').val('');
+
+        var cep = $('#Cep').val().replace("-", "");
+
+        $.getJSON("http://cep.republicavirtual.com.br/web_cep.php?cep=" + cep + "&formato=json", {}, function (data) {
+
+            if (data.resultado_txt == 'sucesso - cep completo') {
+                $('#Endereco').val(data.tipo_logradouro + ' ' + data.logradouro);
+                $('#Bairro').val(data.bairro);
+                $('#Cidade').val(data.cidade);
+                $('#Estado').val(data.uf);
+            }
+        });
+    });
+});
+
+</script>
