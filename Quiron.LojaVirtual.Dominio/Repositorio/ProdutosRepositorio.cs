@@ -1,11 +1,17 @@
 ﻿using System.Collections.Generic;
+using System.Web.Mvc;
 using Quiron.LojaVirtual.Dominio.Entidades;
+
+
+
+
 
 namespace Quiron.LojaVirtual.Dominio.Repositorio
 {
     public class ProdutosRepositorio
     {
         private readonly EfDbContext _context = new EfDbContext();
+
         public IEnumerable<Produto> Produtos
         {
             get { return _context.Produtos; }
@@ -37,13 +43,12 @@ namespace Quiron.LojaVirtual.Dominio.Repositorio
             Produto prod = _context.Produtos.Find(produtoId);
             if (prod != null)
             {
-                _context.Produtos.Remove(prod);
-                _context.SaveChanges();
+              //  _context.Produtos.Remove(prod);
+            //    _context.SaveChanges();
             }
             return prod;
         }
-
-
-
     }
+
 }
+

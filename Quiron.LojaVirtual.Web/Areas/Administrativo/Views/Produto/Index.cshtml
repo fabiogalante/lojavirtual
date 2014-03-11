@@ -7,8 +7,7 @@
 
 
 
-
-
+<div class="alert alert-success" id="mensagem"></div>
 
 <div class="panel panel-default">
     <div class="panel-heading">
@@ -27,39 +26,90 @@
             </tr>
 
             @foreach (var item in Model)
-            {
-                <tr>
-                    <td class="text-right">
-                        #  @item.ProdutoId
-                    </td>
-                    <td>
-                        @Html.ActionLink(item.Nome, "Alterar", new { item.ProdutoId })
-                    </td>
-                    <td class="text-right">
-                        @item.Preco.ToString("c")
-                    </td>
+{
+    <tr id="row-@item.ProdutoId">
+        
+        <td class="text-right">
+            #  @item.ProdutoId
+        </td>
+        <td>
+            @Html.ActionLink(item.Nome, "Alterar", new { item.ProdutoId })
+        </td>
+        <td class="text-right">
+            @item.Preco.ToString("c")
+        </td>
 
-                    <td class="text-center">
-                        @using (Html.BeginForm("Excluir", "Produto"))
-                        {
-                            @Html.Hidden("ProdutoId", item.ProdutoId)
-                            <input type="submit" class="btn btn-default btn-xs" value="Excluir" />
-                        }
-                    </td>
+        <td class="text-center">
+            @*@using (Html.BeginForm("Excluir", "Produto"))
+                {
+                    @Html.Hidden("ProdutoId", item.ProdutoId)
+                    <input type="submit" class="btn btn-default btn-xs" value="Excluir" />
+                }*@
 
-                </tr>
-            }
+
+            <input type="submit" class="btn btn-default btn-xs" id="@item.ProdutoId" name="@item.Nome" value="Excluir" />
+
+        </td>
+
+    </tr>
+}
 
         </table>
 
     </div>
 </div>
 
+@Html.Partial("Confirmacao")
 
 <script>
    
     $(function () {
-        // add JavaScript code here
+
+
+        $("#mensagem").hide();
+
+        //Abre o modal
+        $(".btn-xs").click(function (e) {
+            e.preventDefault();
+            var id = this.id;
+            var nome = this.name;
+            $("#deleteModal .modal-body input[type=hidden]").val(id);
+            $("#deleteModal .modal-body span").text(nome);
+            $('#deleteModal').modal('show');
+        });
+        
+        //Botao confirmar
+        $("#deleteModal .modal-footer button").click(function (e) {
+            e.preventDefault();
+            var url = "/Administrativo/Produto/Excluir/";
+            var id = $(".modal-body input[type=hidden]").val();
+            
+            var rowNo = '#row-' + id;
+
+
+            $.ajax({
+                url: url,
+                type: 'post',
+                dataType: 'json',
+                data: { produtoId: id },
+                beforeSend: function () {
+                    var loading = "<span><em>Excluindo</em>&nbsp;<i class='glyphicon glyphicon-refresh icon-refresh-animate'></i></span>";
+                    $('#deleteModal .modal-header h4').after(loading);
+                },
+                success: function () {
+                   $('#deleteModal').modal('hide');
+                    $(rowNo).animate({ opacity: 0.0 }, 400, function () {
+                        $(rowNo).remove();
+                    });
+                },
+                complete: function (data) {
+                    $("#mensagem").show();
+                    $("#mensagem").html(data.responseText);
+                },
+            });
+        });
+
+
     });
 
 
