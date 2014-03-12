@@ -2,6 +2,18 @@
            
 
 <div class="well">
+    
+    
+    
+    
+    @if (Model.Imagem != null)
+{
+    <div class="pull-left" style="margin-right: 10px">
+        <img class="img-thumbnail" width="180" height="180" src="@Url.Action("ObterImagem", "Produto", new { Model.ProdutoId })" />
+    </div>
+}
+    
+
     <h3>
         <strong>@Model.Nome</strong><span class="pull-right label label-primary">
                                         @Model.Preco.ToString("c")
@@ -9,13 +21,13 @@
     </h3>
     
     @using (Html.BeginForm("Adicionar", "Carrinho"))
-{
-    <div class="pull-right">
-        @Html.HiddenFor(x => x.ProdutoId)
-        @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
-        <input type="submit" class="btn btn-success" value="Comprar" />
-    </div>
-}
+    {
+        <div class="pull-right">
+            @Html.HiddenFor(x => x.ProdutoId)
+            @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+            <input type="submit" class="btn btn-success" value="Comprar" />
+        </div>
+    }
     
     
 
