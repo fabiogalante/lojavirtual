@@ -33,42 +33,32 @@ namespace Quiron.LojaVirtual.Web
             // 1 - Home
 
             routes.MapRoute(null, "",
-                new {controller = "Produto", action = "ListaProdutos", categoria = (string) null, pagina = 1},
-                new[] { "Quiron.LojaVirtual.Web.Controllers" });
+                new {controller = "Vitrine", action = "ListaProdutos", categoria = (string) null, pagina = 1});
+              
 
 
             // 2 - 
             routes.MapRoute(null,
                 "Pagina{pagina}",
-                new {controller = "Produto", action = "ListaProdutos", categoria = (string) null}, new {pagina = @"\d+"},
-                new[] { "Quiron.LojaVirtual.Web.Controllers" }
-                );
+                new { controller = "Vitrine", action = "ListaProdutos", categoria = (string)null }, new { pagina = @"\d+" });
 
 
             routes.MapRoute(null,
-                "{categoria}", new {controller = "Produto", action = "ListaProdutos", pagina = 1},
-                 new[] { "Quiron.LojaVirtual.Web.Controllers" }
-                );
+                "{categoria}", new { controller = "Vitrine", action = "ListaProdutos", pagina = 1 });
 
 
 
             routes.MapRoute(null,
-                "{categoria}/Pagina{pagina}",new {controller = "Produto", action = "ListaProdutos"},new {pagina = @"\d+"},
-                 new[] { "Quiron.LojaVirtual.Web.Controllers" }
-                );
+                "{categoria}/Pagina{pagina}", new { controller = "Vitrine", action = "ListaProdutos" }, new { pagina = @"\d+" });
 
 
 
             routes.MapRoute(
              "ObterImagem",
-             "{controller}/{action}/{id}",
-              new { controller = "Produto", action = "ObterImagem", produtoId = UrlParameter.Optional },
-              new[] { "Quiron.LojaVirtual.Web.Controllers" }
-              );
+             "Vitrine/ObterImgem/{produtoId}",
+              new { controller = "Vitrine", action = "ObterImagem", produtoId = UrlParameter.Optional });
 
-
-        
-
+            
 
             routes.MapRoute(null, "{controller}/{action}");
 
