@@ -21,27 +21,27 @@ namespace Quiron.LojaVirtual.Dominio.Entidades
     public class EmailPedido
     {
 
-        private EmailConfiguraçoes emailConfiguracoes;
+        private readonly EmailConfiguraçoes _emailConfiguracoes;
 
         public EmailPedido(EmailConfiguraçoes emailConfiguracoes)
         {
-            this.emailConfiguracoes = emailConfiguracoes;
+            this._emailConfiguracoes = emailConfiguracoes;
         }
 
         public void ProcessarPedido(Carrinho carrinho, Pedido pedido)
         {
             using (var smtpClient = new SmtpClient())
             {
-                smtpClient.EnableSsl = emailConfiguracoes.UsarSsl;
-                smtpClient.Host = emailConfiguracoes.ServidorSmtp;
-                smtpClient.Port = emailConfiguracoes.ServidorPorta;
+                smtpClient.EnableSsl = _emailConfiguracoes.UsarSsl;
+                smtpClient.Host = _emailConfiguracoes.ServidorSmtp;
+                smtpClient.Port = _emailConfiguracoes.ServidorPorta;
                 smtpClient.UseDefaultCredentials = false;
-                smtpClient.Credentials = new NetworkCredential(emailConfiguracoes.Usuario,emailConfiguracoes.ServidorSmtp);
+                smtpClient.Credentials = new NetworkCredential(_emailConfiguracoes.Usuario,_emailConfiguracoes.ServidorSmtp);
 
-                if (emailConfiguracoes.EscreverArquivo)
+                if (_emailConfiguracoes.EscreverArquivo)
                 {
                     smtpClient.DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory;
-                    smtpClient.PickupDirectoryLocation = emailConfiguracoes.PastaArquivo;
+                    smtpClient.PickupDirectoryLocation = _emailConfiguracoes.PastaArquivo;
                     smtpClient.EnableSsl = false;
                 }
                 StringBuilder body = new StringBuilder()
@@ -69,9 +69,9 @@ namespace Quiron.LojaVirtual.Dominio.Entidades
                 .AppendLine("-----------------")
                 .AppendFormat("Para presente?: {0}", pedido.EmbrulharPresente ? "Sim" : "Não");
 
-                MailMessage mailMessage = new MailMessage(emailConfiguracoes.De,emailConfiguracoes.Para, "Novo pedido!", body.ToString());
+                MailMessage mailMessage = new MailMessage(_emailConfiguracoes.De,_emailConfiguracoes.Para, "Novo pedido!", body.ToString());
                 
-                if (emailConfiguracoes.EscreverArquivo)
+                if (_emailConfiguracoes.EscreverArquivo)
                 {
                     mailMessage.BodyEncoding = Encoding.GetEncoding("ISO-8859-1"); 
                 }

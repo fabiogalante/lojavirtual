@@ -5,6 +5,7 @@ using Quiron.LojaVirtual.Dominio.Repositorio;
 
 namespace Quiron.LojaVirtual.Web.Areas.Administrativo.Controllers
 {
+    [Authorize]
     public class ProdutoController : Controller
     {
         private ProdutosRepositorio _repositorio;
